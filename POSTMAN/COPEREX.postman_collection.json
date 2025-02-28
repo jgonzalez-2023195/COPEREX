@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "81c872c3-a94f-484c-8809-cdf7228d0695",
+		"name": "COPEREX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37956953"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"token\", data.token)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userLogin",
+							"value": "jgonzalez-2023195@kinal.edu.gt",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "MyAdminAce$25",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4004/v1/COPEREX/login",
+					"host": [
+						"localhost"
+					],
+					"port": "4004",
+					"path": [
+						"v1",
+						"COPEREX",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterCompany",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "ComercioGlobal S.A.",
+							"type": "text"
+						},
+						{
+							"key": "levelOfImpact",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "yearsOfExperience",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Comercio",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4004/v1/COPEREX/register/company",
+					"host": [
+						"localhost"
+					],
+					"port": "4004",
+					"path": [
+						"v1",
+						"COPEREX",
+						"register",
+						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reporte",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4004/v1/COPEREX/report/company",
+					"host": [
+						"localhost"
+					],
+					"port": "4004",
+					"path": [
+						"v1",
+						"COPEREX",
+						"report",
+						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Companies",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4004/v1/COPEREX/list/companies?limit=4&skip=0&order=desc&sort=yearsOfExperience",
+					"host": [
+						"localhost"
+					],
+					"port": "4004",
+					"path": [
+						"v1",
+						"COPEREX",
+						"list",
+						"companies"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "4"
+						},
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "category",
+							"value": "Comercio",
+							"disabled": true
+						},
+						{
+							"key": "yearExperience",
+							"value": "4",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "desc"
+						},
+						{
+							"key": "sort",
+							"value": "yearsOfExperience"
+						},
+						{
+							"key": "levelMax",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "levelMin",
+							"value": "3",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCompany",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "levelOfImpact",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "yearsOfExperience",
+							"value": "15",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4004/v1/COPEREX/update/company/67c13e01e05ae301c7cdac9f",
+					"host": [
+						"localhost"
+					],
+					"port": "4004",
+					"path": [
+						"v1",
+						"COPEREX",
+						"update",
+						"company",
+						"67c13e01e05ae301c7cdac9f"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
