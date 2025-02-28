@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { generateExcel, registerCompany } from './company.controller.js'
-import { company } from '../../middleware/validator.js'
+import { generateExcel, listCompanies, registerCompany, updateCompany } from './company.controller.js'
+import { company, updatCompany } from '../../middleware/validator.js'
 import { isAdmin, validateTokenJWT } from '../../middleware/validate.token.js'
 
 const api = Router()
@@ -22,6 +22,25 @@ api.get(
         isAdmin
     ],
     generateExcel
+)
+
+api.get(
+    '/list/companies',
+    [
+        validateTokenJWT,
+        isAdmin
+    ],
+    listCompanies
+)
+
+api.put(
+    '/update/company/:id',
+    [
+        validateTokenJWT,
+        isAdmin,
+        updatCompany
+    ],
+    updateCompany
 )
 
 export default api

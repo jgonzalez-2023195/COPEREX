@@ -104,3 +104,94 @@ export const generateExcel = async(req, res)=> {
         )
     }
 }
+
+export const listCompanies = async(req, res)=> {
+    const {limit, skip, category, yearExperience, sort, order, levelMin, levelMax} = req.query
+    try {
+        const user = await User.findOne(
+            {
+                _id: req.user.uid
+            }
+        )
+
+        if(!user) return res.status(403).send({message: 'user not found'})
+
+        const filter = {}
+        if(levelMin||levelMax){
+            filter.levelOfImpact = {}
+            if(levelMin) filter.levelOfImpact.$lte = parseInt(levelMin)
+            if(levelMax) filter.levelOfImpact.$gte = parseInt(levelMax)
+        }
+        if(category) filter.category = category
+
+        if (yearExperience) {
+            filter.yearsOfExperience = parseInt(yearExperience)
+        }
+
+        const sortOptions = {}
+        if(sort){
+            sortOptions[sort] = order === 'desc' ? -1 : 1
+        }
+        const company = await Company.find(filter).limit(limit).skip(skip).sort(sortOptions).populate(
+            {
+                path: 'createdBy',
+                select: 'name surname email -_id'
+            }
+        )
+        if(!company) return res.status(404).send(
+            {
+                success: false,
+                message: 'Company not found'
+            }
+        )
+
+        return res.status(200).send(
+            {
+                success: true,
+                message: 'Companies: ',
+                company
+            }
+        )
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send(
+            {
+                success: false,
+                message: 'General error cannot see companies in the system',
+                e
+            }
+        )
+    }
+}
+
+export const updateCompany = async(req, res)=> {
+    const id = req.params.id
+    const data = req.body
+    try {
+        const company = await Company.findByIdAndUpdate(id, data, {new: true})
+
+        if(!company) return res.status(404).send(
+            {
+                success: false,
+                message: 'Company not found, company not update'
+            }
+        ) 
+        return res.status(200).send(
+            {
+                success: true,
+                message: 'Company updated successfully',
+                company
+            }
+        )
+
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send(
+            {
+                success: false,
+                message: 'General error when updated comment',
+                e
+            }
+        )
+    }
+}
